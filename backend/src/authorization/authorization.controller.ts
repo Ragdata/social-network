@@ -1,18 +1,19 @@
-import {Controller, Get} from '@nestjs/common';
+import {Body, Controller, Get, Post} from '@nestjs/common';
 import {AuthorizationService} from "./authorization.service";
+import {UsersEntity} from "./users.entity";
 
 @Controller('auth')
 export class AuthorizationController {
   constructor(private readonly authorizationService: AuthorizationService) {}
 
 
-  @Get('reg')
-  reg(): string {
-    return this.authorizationService.registration();
+  @Post('reg')
+  reg(@Body() regData: UsersEntity): Promise<UsersEntity> {
+    return this.authorizationService.registration(regData);
   }
 
-  @Get('log')
-  log(): string {
-    return this.authorizationService.login();
+  @Post('log')
+  log(@Body() loginData: UsersEntity ): Promise<string> {
+    return this.authorizationService.login(loginData);
   }
 }
