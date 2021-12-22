@@ -1,0 +1,80 @@
+.background{
+  position: fixed;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.99);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 700px;
+  height: 700px;
+  background-color: #17252A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.47);
+  -webkit-box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.47);
+  -moz-box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.47);
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .input {
+    width: 250px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid teal;
+    margin-bottom: 20px;
+    color: teal;
+    outline: none;
+    text-align: center;
+    font-size: 18px;
+  }
+  .gender {
+    color: teal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 10px;
+    .gen {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      margin-left: 10px;
+      padding: 5px;
+    }
+  }
+  .file {
+    width: 250px;
+    height: 50px;
+    color: teal;
+  }
+  .btn {
+    height: 40px;
+    width: 250px;
+    border: 2px solid teal;
+    background-color: transparent;
+    color: #fff;
+    font-size: 18px;
+    box-shadow: none;
+    &:hover {
+      cursor: pointer;
+      background-color: teal;
+      color: #fff;
+    }
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}

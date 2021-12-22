@@ -1,11 +1,10 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
-import {AuthorizationService} from "./authorization.service";
-import {UsersEntity} from "./users.entity";
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { AuthorizationService } from './authorization.service';
+import { UsersEntity } from './users.entity';
 
 @Controller('auth')
 export class AuthorizationController {
   constructor(private readonly authorizationService: AuthorizationService) {}
-
 
   @Post('reg')
   reg(@Body() regData: UsersEntity): Promise<UsersEntity> {
@@ -13,7 +12,7 @@ export class AuthorizationController {
   }
 
   @Post('log')
-  log(@Body() loginData: UsersEntity ): Promise<string> {
+  log(@Body() loginData: UsersEntity): Promise<object> {
     return this.authorizationService.login(loginData);
   }
 }

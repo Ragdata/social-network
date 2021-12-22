@@ -1,8 +1,10 @@
-import {BadRequestException, Injectable} from '@nestjs/common';
-import {UsersEntity} from "./users.entity";
-import {Repository} from "typeorm";
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UsersEntity } from './users.entity';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import {InjectRepository} from "@nestjs/typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import genTokenPair from '../middleware/genTokenPair';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthorizationService {
@@ -15,33 +17,24 @@ export class AuthorizationService {
     const findDuplicateEmail = await this.usersRepository.find({
       where: { email: registerData.email },
     });
-    const findDuplicatePhone = await this.usersRepository.find({
-      where: { phone: registerData.phone },
-    });
+
     if (findDuplicateEmail.length !== 0) {
       throw new BadRequestException({
         key: 'User with this email already exist',
       });
     }
-    if (findDuplicatePhone.length !== 0) {
-      throw new BadRequestException({
-        key: 'User with this phone number already exist',
-      });
-    }
     const hash = await bcrypt.hash(registerData.password, 5);
     const newUser = {
+      id: uuidv4(),
       email: registerData.email,
-      phone: registerData.phone,
       password: hash,
-      dateOfBirth: '01082001',
-      isAdmin: false
-    }
-    const createNewUser = await this.usersRepository.create(newUser)
-    return this.usersRepository.save(createNewUser)
-
+      isAdmin: false,
+    };
+    const createNewUser = await this.usersRepository.create(newUser);
+    return this.usersRepository.save(createNewUser);
   }
 
-  async login(loginData: UsersEntity): Promise<string> {
+  async login(loginData: UsersEntity): Promise<object> {
     const findRegisteredUser = await this.usersRepository.find({
       where: { email: loginData.email },
     });
@@ -51,8 +44,16 @@ export class AuthorizationService {
         findRegisteredUser[0].password,
       );
       if (validPassword) {
-
-        return `${findRegisteredUser[0].id}` ;
+        const tokenPair = genTokenPair(
+          findRegisteredUser[0].id,
+          findRegisteredUser[0].isAdmin,
+        );
+        const { accessToken, refreshToken } = tokenPair;
+        return {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          userId: findRegisteredUser[0].id,
+        };
       } else {
         throw new BadRequestException({ key: 'Invalid password!' });
       }
@@ -60,6 +61,4 @@ export class AuthorizationService {
       throw new BadRequestException({ key: 'Invalid email!' });
     }
   }
-
-
 }
