@@ -15,7 +15,6 @@ export class ProfilesService {
   ) {}
 
   async createProfile(profileData: ProfilesEntity): Promise<ProfilesEntity> {
-    console.log(profileData.userId);
     const findDuplicateProfile = await this.userRepository.find({
       where: { userId: profileData.userId },
     });
