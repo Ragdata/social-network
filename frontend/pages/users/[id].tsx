@@ -2,9 +2,6 @@ import styles from './style.module.scss'
 import TopNavbar from "../../components/topNavbar/topNavbar";
 import React, {FormEvent, useEffect, useState} from "react";
 import CreateProfile from "../../components/createProfile/createProfile";
-import AliceCarousel from "react-alice-carousel";
-import 'react-alice-carousel/lib/alice-carousel.css';
-
 
 export default function () {
   const [viewTA, setViewTA] = useState(false)

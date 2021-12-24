@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styles from './style.module.scss'
+import axios from "axios";
 
 const CreateProfile = () => {
   const [name, setName] = useState('')
@@ -10,9 +11,24 @@ const CreateProfile = () => {
   const [city, setCity] = useState('')
   const [photo, setPhoto] = useState('')
 
-  const createProfile = (e: React.FormEvent<HTMLFormElement>) => {
+  const createProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('as')
+    try {
+      const response = await axios.post('http://localhost:3001/profiles/createProfile', {
+        name: name,
+        surname: surname,
+        gender: gender,
+        phone: phone,
+        dataOfBirth: dateOfBirth,
+        city: city,
+        mainPhoto: photo,
+        userId: localStorage.getItem('userId'),
+      })
+      console.log(response.data)
+    } catch (e) {
+      alert(e)
+    }
   }
 
   return (

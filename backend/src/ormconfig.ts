@@ -1,18 +1,18 @@
-import {ConnectionOptions} from "typeorm";
+import { ConnectionOptions } from 'typeorm';
 
 const config: ConnectionOptions = {
   type: 'postgres',
   host: 'localhost',
-  port: 5432,
+  port: 5433,
   username: 'postgres',
-  password: 'post123',
+  password: 'root',
   database: 'social',
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
   synchronize: false,
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   cli: {
-    migrationsDir: 'src/migrations'
-  }
-}
+    migrationsDir: 'src/migrations',
+  },
+};
 
 export default config;

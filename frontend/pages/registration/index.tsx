@@ -12,7 +12,7 @@ const Registration = () => {
     e.preventDefault();
     if (email !== '' && password !== '') {
       try {
-        const response = await axios.post('http://localhost:5000/auth/reg', {
+        const response = await axios.post('http://localhost:3001/auth/reg', {
           email: email,
           password: password
         })

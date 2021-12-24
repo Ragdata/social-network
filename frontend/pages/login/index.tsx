@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     if (email !== '' && password !== '') {
       try {
-        const response = await axios.post('http://localhost:5000/auth/log', {
+        const response = await axios.post('http://localhost:3001/auth/log', {
           email: email,
           password: password
         })
