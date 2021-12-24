@@ -1,4 +1,10 @@
-import {Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'profiles' })
 export class ProfilesEntity {
@@ -6,7 +12,10 @@ export class ProfilesEntity {
   id: string;
 
   @Column()
-  email?: string;
+  name?: string;
+
+  @Column()
+  surname?: string;
 
   @Column()
   phone?: string;
@@ -15,10 +24,13 @@ export class ProfilesEntity {
   dateOfBirth?: string;
 
   @Column()
-  aboutMe?: string;
+  gender?: string;
 
   @Column()
   mainPhoto?: string;
+
+  @Column()
+  city?: string;
 
   @Column()
   userId?: string;
