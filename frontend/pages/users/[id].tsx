@@ -2,11 +2,26 @@ import styles from './style.module.scss'
 import TopNavbar from "../../components/topNavbar/topNavbar";
 import React, {FormEvent, useEffect, useState} from "react";
 import CreateProfile from "../../components/createProfile/createProfile";
+import axios from "axios";
+
+interface ProfileData {
+  id: string;
+  name: string;
+  surname: string;
+  phone: string;
+  dateOfBirth: string;
+  gender: string;
+  mainPhoto?: string;
+  city: string;
+  userId: string;
+}
 
 export default function () {
   const [viewTA, setViewTA] = useState(false)
   const [newPost, setNewPost] = useState('')
   const [createProfile, setCreateProfile] = useState(false)
+  const [profileData, setProfileData] = useState<ProfileData | null>()
+
 
   const openText = () => {
     setViewTA(true)
@@ -18,8 +33,23 @@ export default function () {
     setViewTA(false)
   }
 
+  const getProfiles = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/profiles/getProfile', {
+        headers: {
+          id: `${localStorage.getItem('userId')}`
+        }
+      })
+      console.log(response.data)
+      setProfileData(response.data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
     setCreateProfile(true)
+    getProfiles()
   }, [])
 
   const handleDragStart = (e: { preventDefault: () => any; }) => e.preventDefault();
@@ -45,11 +75,11 @@ export default function () {
               <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRjZqlgD7-Wv8Fi6437F8MBQqYvts9-nZY8_tTjURyaRoiHTYQHCsDspNsHkrWRrNXmWw&usqp=CAU" alt="avatar"/>
             </div>
             <div className={styles.info}>
-              <p style={{fontWeight: 'bold', fontSize: '24px'}}><span>Виталий</span> <span>Кочергин</span></p>
+              <p style={{fontWeight: 'bold', fontSize: '24px'}}><span>{profileData?.name}</span> <span>{profileData?.surname}</span></p>
               <hr style={{border: '1px solid #3AAFA9', width: '90%'}}/>
-              <p><span style={{color: 'grey', marginRight: '20px'}}>Дата рождения: </span><span>1 августа 2001 г.</span></p>
-              <p><span style={{color: 'grey', marginRight: '20px'}}>Город: </span>г. <span>Краснодар</span></p>
-              <p><span style={{color: 'grey', marginRight: '20px'}}>Номер телефона: </span><span>8-(964)-904-04-23</span></p>
+              <p><span style={{color: 'grey', marginRight: '20px'}}>Дата рождения: </span><span>{profileData?.dateOfBirth}</span></p>
+              <p><span style={{color: 'grey', marginRight: '20px'}}>Город: </span>г. <span>{profileData?.city}</span></p>
+              <p><span style={{color: 'grey', marginRight: '20px'}}>Номер телефона: </span><span>{profileData?.phone}</span></p>
             </div>
           </div>
           <div className={styles.userPhotos}>

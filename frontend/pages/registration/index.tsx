@@ -22,7 +22,7 @@ const Registration = () => {
         const id = localStorage.getItem('userId')
         router.push(`/login`)
       } catch (e) {
-        alert(e)
+        console.log(e)
       }
 
     }

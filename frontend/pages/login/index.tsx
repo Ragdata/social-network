@@ -24,7 +24,7 @@ const Login = () => {
         const id = localStorage.getItem('userId')
         router.push(`/users/${id}`)
       } catch (e) {
-        alert(e)
+        console.log(e)
       }
 
     }

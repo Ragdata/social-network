@@ -15,28 +15,35 @@ export class ProfilesService {
   ) {}
 
   async createProfile(profileData: ProfilesEntity): Promise<ProfilesEntity> {
-    const findDuplicateProfile = await this.userRepository.find({
-      where: { userId: profileData.userId },
-    });
-    console.log(findDuplicateProfile);
-
-    if (findDuplicateProfile.length !== 0) {
-      throw new BadRequestException({
-        key: 'This user profile already exists',
-      });
-    }
+    // const findDuplicateProfile = await this.userRepository.find({
+    //   where: { id: profileData.userId },
+    // });
+    // if (findDuplicateProfile.length !== 0) {
+    //   throw new BadRequestException({
+    //     key: 'This user profile already exists',
+    //   });
+    // }
     const newProfile = {
       id: uuidv4(),
       name: profileData.name,
       surname: profileData.surname,
       gender: profileData.gender,
       phone: profileData.phone,
-      dateOfBirth: profileData.dateOfBirth,
+      dateOfBirth: 'foo',
       city: profileData.city,
       mainPhoto: profileData.mainPhoto,
       userId: profileData.userId,
     };
-    const createNewUser = await this.profileRepository.create(newProfile);
-    return this.profileRepository.save(createNewUser);
+    const createNewProfile = await this.profileRepository.create(newProfile);
+    return this.profileRepository.save(createNewProfile);
+  }
+
+  async getProfile(id: string): Promise<any> {
+    console.log(1111111);
+    const findOneProfile = await this.profileRepository.findOne({
+      where: { userId: id },
+    });
+    console.log(findOneProfile);
+    return findOneProfile;
   }
 }
